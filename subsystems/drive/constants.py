@@ -3,27 +3,27 @@ from utils.units import unit
 
 # module configs
 frontLeft = {
-    "driveMotorId": int,
-    "turningMotorId": int,
-    "turningEncoderId": int,
+    "driveMotorId": 5,
+    "turningMotorId": 6,
+    "turningEncoderId": 11,
 }
 
 frontRight = {
-    "driveMotorId": int,
-    "turningMotorId": int,
-    "turningEncoderId": int,
+    "driveMotorId": 1,
+    "turningMotorId": 2,
+    "turningEncoderId": 9,
 }
 
 backLeft = {
-    "driveMotorId": int,
-    "turningMotorId": int,
-    "turningEncoderId": int,
+    "driveMotorId": 7,
+    "turningMotorId": 8,
+    "turningEncoderId": 12,
 }
 
 backRight = {
-    "driveMotorId": int,
-    "turningMotorId": int,
-    "turningEncoderId": int,
+    "driveMotorId": 3,
+    "turningMotorId": 4,
+    "turningEncoderId": 10,
 }
 
 # module parameters
@@ -50,3 +50,5 @@ kMaxSpeed = 3.0 * unit.meter / unit.second  # 3 meters per second
 kMaxAngularSpeed = math.pi * unit.radian / unit.second  # 1/2 rotation per second
 kChassisWidth = (28.0 * unit.inch).to('meter')
 kChassisLength = (28.0 * unit.inch).to('meter')
+
+kGyroId = 20

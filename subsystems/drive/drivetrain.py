@@ -17,6 +17,9 @@ import wpimath.geometry
 import wpimath.kinematics
 import commands2
 
+# vendor imports
+from phoenix6.hardware.pigeon2 import Pigeon2
+
 class Drivetrain(commands2.Subsystem):
     """
     Represents a swerve drive style drivetrain.
@@ -33,7 +36,7 @@ class Drivetrain(commands2.Subsystem):
         self.backLeft = swervemodule.SwerveModule(**constants.backLeft)
         self.backRight = swervemodule.SwerveModule(**constants.backRight)
 
-        self.gyro = wpilib.AnalogGyro(0)
+        self.gyro = Pigeon2(constants.kGyroId)
 
         self.kinematics = wpimath.kinematics.SwerveDrive4Kinematics(
             self.frontLeftLocation,
