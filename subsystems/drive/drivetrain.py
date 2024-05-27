@@ -87,7 +87,7 @@ class Drivetrain(commands2.Subsystem):
             )
         )
         wpimath.kinematics.SwerveDrive4Kinematics.desaturateWheelSpeeds(
-            swerveModuleStates, constants.kMaxSpeed
+            swerveModuleStates, constants.kMaxSpeed.to("meter / second")
         )
         self.frontLeft.setDesiredState(swerveModuleStates[0])
         self.frontRight.setDesiredState(swerveModuleStates[1])
