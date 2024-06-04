@@ -12,7 +12,7 @@ import constants
 
 # wpi imports
 import wpilib
-import wpimath.controller
+import wpimath
 import commands2
 import commands2.cmd
 import commands2.button
@@ -31,7 +31,7 @@ class RobotContainer:
     def __init__(self):
         """The container for the robot. Contains subsystems, OI devices, and commands."""
         # The robot's subsystems
-        self.robotDrive = subsystems.subsystems.drive.Drivetrain()
+        self.robotDrive = subsystems.drive.drivetrain.Drivetrain()
 
         # The driver's controller
         self.driverController = wpilib.XboxController(
@@ -48,9 +48,9 @@ class RobotContainer:
             # hand, and turning controlled by the right.
             commands2.RunCommand(
                 lambda: self.robotDrive.drive(
-                    xSpeed = self.driverController.getLeftX() * subsystems.drive.drivetrain.constants.kMaxSpeed,
-                    ySpeed =self.driverController.getLeftY() * subsystems.drive.drivetrain.constants.kMaxSpeed,
-                    rot = self.driverController.getRightX() * subsystems.drive.drivetrain.constants.kMaxAngularSpeed,
+                    xSpeed = -wpimath.applyDeadband(self.driverController.getRawAxis(1), 0.1) * subsystems.drive.drivetrain.constants.kMaxSpeed,
+                    ySpeed = -wpimath.applyDeadband(self.driverController.getRawAxis(0), 0.1) * subsystems.drive.drivetrain.constants.kMaxSpeed,
+                    rot = wpimath.applyDeadband(self.driverController.getRawAxis(2), 0.1) * subsystems.drive.drivetrain.constants.kMaxAngularSpeed,
                     fieldRelative = True,
                     periodSeconds = commands2.TimedCommandRobot.kDefaultPeriod
                 ),

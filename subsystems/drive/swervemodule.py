@@ -8,7 +8,7 @@
 import math
 
 # project imports
-import constants
+import subsystems.drive.constants as constants
 from utils.units import unit
 
 # wpi imports
@@ -76,35 +76,42 @@ class SwerveModule:
 
         self.turningMotor.configurator.apply(turn_fx_cfg)
 
+        self.position = wpimath.kinematics.SwerveModulePosition(0, wpimath.geometry.Rotation2d.fromDegrees(0))
+        self.state = wpimath.kinematics.SwerveModuleState(0, wpimath.geometry.Rotation2d.fromDegrees(0))
+
     def getState(self) -> wpimath.kinematics.SwerveModuleState:
         """Returns the current state of the module.
 
         :returns: The current state of the module.
         """
-        return wpimath.kinematics.SwerveModuleState(
-            (self.driveMotor.get_velocity().refresh().value * unit.turn / unit.second * constants.kWheelCircumference).to("meter / second"),
-            wpimath.geometry.Rotation2d((self.turningMotor.get_position().refresh().value * unit.turn).to("radian")),
-        )
+        return self.state
 
     def getPosition(self) -> wpimath.kinematics.SwerveModulePosition:
         """Returns the current position of the module.
 
         :returns: The current position of the module.
         """
-        return wpimath.kinematics.SwerveModulePosition(
-            (self.driveMotor.get_position().refresh().value * unit.turn * constants.kWheelCircumference).to("meter"),
-            wpimath.geometry.Rotation2d((self.turningMotor.get_position().refresh().value * unit.turn).to("radian")),
+        return self.position
+    
+    def update(self):
+        self.position = wpimath.kinematics.SwerveModulePosition(
+            (self.driveMotor.get_position().refresh().value * unit.turn * constants.kWheelCircumference).m_as("meter"),
+            wpimath.geometry.Rotation2d((self.turningMotor.get_position().refresh().value * unit.turn).m_as("radian")),
+        )
+        self.state = wpimath.kinematics.SwerveModuleState(
+            (self.driveMotor.get_velocity().refresh().value * unit.turn / unit.second * constants.kWheelCircumference).m_as("meter / second"),
+            wpimath.geometry.Rotation2d((self.turningMotor.get_position().refresh().value * unit.turn).m_as("radian")),
         )
 
     def setDesiredState(
         self, desiredState: wpimath.kinematics.SwerveModuleState
-    ) -> None:
+    ) -> wpimath.kinematics.SwerveModuleState:
         """Sets the desired state for the module.
 
         :param desiredState: Desired state with speed and angle.
         """
 
-        encoderRotation = wpimath.geometry.Rotation2d((self.turningMotor.get_position().refresh().value * unit.turn).to("radian"))
+        encoderRotation = wpimath.geometry.Rotation2d((self.turningMotor.get_position().refresh().value * unit.turn).m_as("radian"))
 
         # Optimize the reference state to avoid spinning further than 90 degrees
         state = wpimath.kinematics.SwerveModuleState.optimize(
@@ -116,11 +123,13 @@ class SwerveModule:
         # driving.
         state.speed *= (state.angle - encoderRotation).cos()
 
-        target_speed = (state.speed * unit.meter / unit.second / constants.kWheelCircumference).to("turn / second")
-        target_angle = (state.angle.radians * unit.radian).to("turn")
+        target_speed = (state.speed * unit.meter / unit.second / constants.kWheelCircumference).m_as("turn / second")
+        target_angle = (state.angle.radians() * unit.radian).m_as("turn")
 
         drive_request = controls.VelocityVoltage(target_speed).with_slot(0)
         self.driveMotor.set_control(drive_request)
 
         turn_request = controls.PositionVoltage(target_angle).with_slot(0)
         self.turningMotor.set_control(turn_request)
+
+        return state
