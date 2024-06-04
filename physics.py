@@ -96,23 +96,18 @@ class PhysicsEngine:
             turn_fx.set_raw_rotor_position((turn_motor.getAngularPosition() * self.turn_ratio * unit.radian).m_as("turn"))
             turn_fx.set_rotor_velocity((turn_motor.getAngularVelocity() * self.turn_ratio * unit.radian / unit.second).m_as("turn / second"))
 
-        speeds = \
-        drivetrains.four_motor_swerve_drivetrain(self.swerve_sim_devices[1][0].motor_voltage/RobotController.getBatteryVoltage(),
-                                                 self.swerve_sim_devices[2][0].motor_voltage/RobotController.getBatteryVoltage(),
-                                                 self.swerve_sim_devices[3][0].motor_voltage/RobotController.getBatteryVoltage(),
-                                                 self.swerve_sim_devices[0][0].motor_voltage/RobotController.getBatteryVoltage(),
-                                                 360 - ((self.swerve_sim_devices[1][3].getAngularPosition()) * unit.radian).m_as("degree"),
-                                                 360 - ((self.swerve_sim_devices[2][3].getAngularPosition()) * unit.radian).m_as("degree"),
-                                                 360 - ((self.swerve_sim_devices[3][3].getAngularPosition()) * unit.radian).m_as("degree"),
-                                                 360 - ((self.swerve_sim_devices[0][3].getAngularPosition()) * unit.radian).m_as("degree"),
-                                                 subsystems.drive.constants.kChassisWidth.m_as("feet"),
-                                                 subsystems.drive.constants.kChassisLength.m_as("feet"),
-                                                 subsystems.drive.constants.kMaxSpeed.m_as("feet / second")
-                                                 )
+        # speeds = \
+        # drivetrains.four_motor_swerve_drivetrain(self.swerve_sim_devices[1][0].motor_voltage/RobotController.getBatteryVoltage(),
+        #                                          self.swerve_sim_devices[2][0].motor_voltage/RobotController.getBatteryVoltage(),
+        #                                          self.swerve_sim_devices[3][0].motor_voltage/RobotController.getBatteryVoltage(),
+        #                                          self.swerve_sim_devices[0][0].motor_voltage/RobotController.getBatteryVoltage(),
+        #                                          360 - ((self.swerve_sim_devices[1][3].getAngularPosition()) * unit.radian).m_as("degree"),
+        #                                          360 - ((self.swerve_sim_devices[2][3].getAngularPosition()) * unit.radian).m_as("degree"),
+        #                                          360 - ((self.swerve_sim_devices[3][3].getAngularPosition()) * unit.radian).m_as("degree"),
+        #                                          360 - ((self.swerve_sim_devices[0][3].getAngularPosition()) * unit.radian).m_as("degree"),
+        #                                          subsystems.drive.constants.kChassisWidth.m_as("feet"),
+        #                                          subsystems.drive.constants.kChassisLength.m_as("feet"),
+        #                                          subsystems.drive.constants.kMaxSpeed.m_as("feet / second")
+        #                                          )
         
-        SmartDashboard.putNumber("module rotation", 180-((self.swerve_sim_devices[0][3].getAngularPosition()) * unit.radian).m_as("degree"))
-        
-        pose = self.physics_controller.drive(speeds, tm_diff)
-
         self.drivetrain.gyro.sim_state.set_supply_voltage(RobotController.getBatteryVoltage())
-        self.drivetrain.gyro.sim_state.set_raw_yaw(pose.rotation().degrees())

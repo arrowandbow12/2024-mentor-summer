@@ -28,10 +28,10 @@ class RobotContainer:
 
     """
 
-    def __init__(self):
+    def __init__(self, isReal=True):
         """The container for the robot. Contains subsystems, OI devices, and commands."""
         # The robot's subsystems
-        self.robotDrive = subsystems.drive.drivetrain.Drivetrain()
+        self.robotDrive = subsystems.drive.drivetrain.Drivetrain(isReal=isReal)
 
         # The driver's controller
         self.driverController = wpilib.XboxController(
@@ -50,7 +50,7 @@ class RobotContainer:
                 lambda: self.robotDrive.drive(
                     xSpeed = -wpimath.applyDeadband(self.driverController.getRawAxis(1), 0.1) * subsystems.drive.drivetrain.constants.kMaxSpeed,
                     ySpeed = -wpimath.applyDeadband(self.driverController.getRawAxis(0), 0.1) * subsystems.drive.drivetrain.constants.kMaxSpeed,
-                    rot = wpimath.applyDeadband(self.driverController.getRawAxis(2), 0.1) * subsystems.drive.drivetrain.constants.kMaxAngularSpeed,
+                    rot = -wpimath.applyDeadband(self.driverController.getRawAxis(2), 0.1) * subsystems.drive.drivetrain.constants.kMaxAngularSpeed,
                     fieldRelative = True,
                     periodSeconds = commands2.TimedCommandRobot.kDefaultPeriod
                 ),

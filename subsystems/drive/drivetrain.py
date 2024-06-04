@@ -6,6 +6,7 @@
 
 # standard python imports
 import math
+import random
 
 # project imports
 from subsystems.drive.swervemodule import SwerveModule
@@ -13,9 +14,9 @@ import subsystems.drive.constants as constants
 from utils.units import unit
 
 # wpi imports
-from wpilib import SmartDashboard, Field2d
+from wpilib import SmartDashboard, Field2d, TimedRobot
 import wpimath.geometry
-from wpimath.geometry import Rotation2d, Pose2d
+from wpimath.geometry import Rotation2d, Pose2d, Twist2d
 import wpimath.kinematics
 from wpimath.kinematics import SwerveModuleState
 import commands2
@@ -29,7 +30,11 @@ class Drivetrain(commands2.Subsystem):
     Represents a swerve drive style drivetrain.
     """
 
-    def __init__(self) -> None:
+    def __init__(self, isReal=True) -> None:
+
+        self._isReal = isReal
+        self._simPose = Pose2d()
+
         self.frontLeftLocation = wpimath.geometry.Translation2d((constants.kChassisWidth / 2.0).m_as("meter"), (constants.kChassisLength / 2.0).m_as("meter"))
         self.frontRightLocation = wpimath.geometry.Translation2d((constants.kChassisWidth / 2.0).m_as("meter"),(-constants.kChassisLength / 2.0).m_as("meter"))
         self.backLeftLocation = wpimath.geometry.Translation2d((-constants.kChassisWidth / 2.0).m_as("meter"), (constants.kChassisLength / 2.0).m_as("meter"))
@@ -147,7 +152,18 @@ class Drivetrain(commands2.Subsystem):
         self.sms_pub.set([self.frontLeft.getState(),self.frontRight.getState(),self.backLeft.getState(),self.backRight.getState()])
 
     def getPigeonRotation2d(self) -> Rotation2d:
-        return Rotation2d.fromDegrees(self.gyro.get_yaw().refresh().value)
+        if self._isReal:
+            return Rotation2d.fromDegrees(self.gyro.get_yaw().refresh().value)
+        else:
+            chSpds = self.kinematics.toChassisSpeeds([self.frontLeft.getState(),
+                                                        self.frontRight.getState(),
+                                                        self.backLeft.getState(),
+                                                        self.backRight.getState(),])
+            self._simPose = self._simPose.exp(
+                Twist2d(chSpds.vx * 0.02, chSpds.vy * 0.02, chSpds.omega * 0.02)
+            )
+            noise = Rotation2d.fromDegrees(random.uniform(-1.25, 1.25))
+            return self._simPose.rotation() + noise
 
     def periodic(self) -> None:
         self.updateOdometry()
