@@ -29,12 +29,14 @@ class SwerveModule:
         driveMotorId: int,
         turningMotorId: int,
         turningEncoderId: int,
+        offset
     ) -> None:
         """Constructs a SwerveModule with a drive motor, turning motor, drive encoder and turning encoder.
 
         :param driveMotorId:      CAN ID for drive motor
         :param turningMotorId:    CAN ID for turning motor
         :param turningEncoderId:  CAN ID for turning encoder
+        :param offset:  CANcoder offset
         """
 
         # configure drive motor
@@ -47,6 +49,10 @@ class SwerveModule:
         slot0Config.k_d = constants.kDrive_d
         slot0Config.k_v = constants.kDrive_v
 
+        drive_fx_cfg.motor_output.inverted = signals.InvertedValue.CLOCKWISE_POSITIVE
+        drive_fx_cfg.current_limits.stator_current_limit = 60
+        drive_fx_cfg.current_limits.stator_current_limit_enable = True
+
         drive_fx_cfg.feedback.sensor_to_mechanism_ratio = constants.kDriveRatio
 
         self.driveMotor.configurator.apply(drive_fx_cfg)
@@ -57,13 +63,14 @@ class SwerveModule:
         cc_cfg = configs.CANcoderConfiguration()
         cc_cfg.magnet_sensor.absolute_sensor_range = signals.AbsoluteSensorRangeValue.SIGNED_PLUS_MINUS_HALF
         cc_cfg.magnet_sensor.sensor_direction = signals.SensorDirectionValue.COUNTER_CLOCKWISE_POSITIVE
-        # cc_cfg.magnet_sensor.magnet_offset = 0.4 # do this in Phoenix Tuner X instead
+        cc_cfg.magnet_sensor.magnet_offset = offset.m_as("turn") # do this in Phoenix Tuner X instead
         self.turningEncoder.configurator.apply(cc_cfg)
 
         # configure turn motor
         self.turningMotor = TalonFX(turningMotorId)
         
         turn_fx_cfg = configs.TalonFXConfiguration()
+        turn_fx_cfg.motor_output.inverted = signals.InvertedValue.CLOCKWISE_POSITIVE
         slot0Config = turn_fx_cfg.slot0
         slot0Config.k_p = constants.kTurn_p
         slot0Config.k_i = constants.kTurn_i
@@ -73,6 +80,9 @@ class SwerveModule:
         turn_fx_cfg.feedback.feedback_sensor_source = signals.FeedbackSensorSourceValue.FUSED_CANCODER
         turn_fx_cfg.feedback.sensor_to_mechanism_ratio = 1.0
         turn_fx_cfg.feedback.rotor_to_sensor_ratio = constants.kTurnRatio
+
+        turn_fx_cfg.current_limits.stator_current_limit = 60
+        turn_fx_cfg.current_limits.stator_current_limit_enable = True
 
         self.turningMotor.configurator.apply(turn_fx_cfg)
 

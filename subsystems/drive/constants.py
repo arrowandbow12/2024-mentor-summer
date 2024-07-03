@@ -3,27 +3,31 @@ from utils.units import unit
 
 # module configs
 frontLeft = {
-    "driveMotorId": 5,
-    "turningMotorId": 6,
-    "turningEncoderId": 11,
-}
-
-frontRight = {
-    "driveMotorId": 1,
-    "turningMotorId": 2,
-    "turningEncoderId": 9,
-}
-
-backLeft = {
-    "driveMotorId": 7,
-    "turningMotorId": 8,
-    "turningEncoderId": 12,
-}
-
-backRight = {
     "driveMotorId": 3,
     "turningMotorId": 4,
     "turningEncoderId": 10,
+    "offset":-0.439 * unit.radian,
+}
+
+frontRight = {
+    "driveMotorId": 7,
+    "turningMotorId": 8,
+    "turningEncoderId": 12,
+    "offset":-1.592 * unit.radian,
+}
+
+backLeft = {
+    "driveMotorId": 1,
+    "turningMotorId": 2,
+    "turningEncoderId": 9,
+    "offset":-2.180 * unit.radian,
+}
+
+backRight = {
+    "driveMotorId": 5,
+    "turningMotorId": 6,
+    "turningEncoderId": 11,
+    "offset":3.073 * unit.radian,
 }
 
 # module parameters
