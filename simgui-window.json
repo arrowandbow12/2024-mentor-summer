@@ -30,18 +30,18 @@
     },
     "###/SmartDashboard/odo_raw": {
       "Collapsed": "0",
-      "Pos": "254,19",
-      "Size": "701,580"
+      "Pos": "535,-31",
+      "Size": "701,584"
     },
     "###FMS": {
       "Collapsed": "0",
       "Pos": "5,540",
-      "Size": "283,140"
+      "Size": "169,184"
     },
     "###Joysticks": {
       "Collapsed": "0",
-      "Pos": "166,769",
-      "Size": "796,73"
+      "Pos": "316,594",
+      "Size": "796,189"
     },
     "###Keyboard 0 Settings": {
       "Collapsed": "0",
@@ -70,7 +70,7 @@
     },
     "###RoboRIO": {
       "Collapsed": "0",
-      "Pos": "100,16",
+      "Pos": "142,5",
       "Size": "119,146"
     },
     "###System Joysticks": {

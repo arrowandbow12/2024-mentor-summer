@@ -61,10 +61,10 @@ class PhysicsEngine:
         self.drivetrain.frontLeft.turningMotor.sim_state.orientation = ChassisReference.Clockwise_Positive
         self.drivetrain.frontRight.turningMotor.sim_state.orientation = ChassisReference.Clockwise_Positive
 
-        self.drivetrain.backLeft.turningEncoder.sim_state.orientation = ChassisReference.Clockwise_Positive
-        self.drivetrain.backRight.turningEncoder.sim_state.orientation = ChassisReference.Clockwise_Positive
-        self.drivetrain.frontLeft.turningEncoder.sim_state.orientation = ChassisReference.Clockwise_Positive
-        self.drivetrain.frontRight.turningEncoder.sim_state.orientation = ChassisReference.Clockwise_Positive
+        self.drivetrain.backLeft.turningEncoder.sim_state.orientation = ChassisReference.CounterClockwise_Positive
+        self.drivetrain.backRight.turningEncoder.sim_state.orientation = ChassisReference.CounterClockwise_Positive
+        self.drivetrain.frontLeft.turningEncoder.sim_state.orientation = ChassisReference.CounterClockwise_Positive
+        self.drivetrain.frontRight.turningEncoder.sim_state.orientation = ChassisReference.CounterClockwise_Positive
 
     def update_sim(self, now: float, tm_diff: float) -> None:
         """
