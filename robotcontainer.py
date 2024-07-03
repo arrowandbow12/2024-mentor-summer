@@ -50,7 +50,7 @@ class RobotContainer:
                 lambda: self.robotDrive.drive(
                     xSpeed = -wpimath.applyDeadband(self.driverController.getRawAxis(1), 0.1) * subsystems.drive.drivetrain.constants.kMaxSpeed,
                     ySpeed = -wpimath.applyDeadband(self.driverController.getRawAxis(0), 0.1) * subsystems.drive.drivetrain.constants.kMaxSpeed,
-                    rot = -wpimath.applyDeadband(self.driverController.getRawAxis(2), 0.1) * subsystems.drive.drivetrain.constants.kMaxAngularSpeed,
+                    rot = -wpimath.applyDeadband(self.driverController.getRawAxis(4), 0.1) * subsystems.drive.drivetrain.constants.kMaxAngularSpeed,
                     fieldRelative = True,
                     periodSeconds = commands2.TimedCommandRobot.kDefaultPeriod
                 ),

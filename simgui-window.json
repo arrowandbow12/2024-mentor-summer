@@ -5,11 +5,11 @@
   "MainWindow": {
     "GLOBAL": {
       "fps": "120",
-      "height": "991",
+      "height": "856",
       "maximized": "1",
       "style": "0",
       "userScale": "2",
-      "width": "1728",
+      "width": "1512",
       "xpos": "224",
       "ypos": "133"
     }
@@ -30,8 +30,8 @@
     },
     "###/SmartDashboard/odo_raw": {
       "Collapsed": "0",
-      "Pos": "254,19",
-      "Size": "701,580"
+      "Pos": "535,-31",
+      "Size": "701,584"
     },
     "###FMS": {
       "Collapsed": "0",
@@ -40,8 +40,8 @@
     },
     "###Joysticks": {
       "Collapsed": "0",
-      "Pos": "166,769",
-      "Size": "796,217"
+      "Pos": "316,594",
+      "Size": "796,189"
     },
     "###Keyboard 0 Settings": {
       "Collapsed": "0",
@@ -70,7 +70,7 @@
     },
     "###RoboRIO": {
       "Collapsed": "0",
-      "Pos": "100,16",
+      "Pos": "142,5",
       "Size": "119,146"
     },
     "###System Joysticks": {
