@@ -16,6 +16,8 @@ import wpimath
 import commands2
 import commands2.cmd
 import commands2.button
+from pathplannerlib.auto import AutoBuilder
+from wpilib import SmartDashboard
 
 # vendor imports
 
@@ -58,6 +60,14 @@ class RobotContainer:
             )
         )
 
+        # Build an auto chooser. This will use Commands.none() as the default option.
+        self.autoChooser = AutoBuilder.buildAutoChooser()
+
+        # Another option that allows you to specify the default auto by its name
+        # self.autoChooser = AutoBuilder.buildAutoChooser("My Default Auto")
+
+        SmartDashboard.putData("Auto Chooser", self.autoChooser)
+
     def configureButtonBindings(self):
         """
         Use this method to define your button->command mappings. Buttons can be created via the button
@@ -71,4 +81,4 @@ class RobotContainer:
 
         :returns: the command to run in autonomous
         """
-        return commands2.InstantCommand()
+        return self.autoChooser.getSelected()

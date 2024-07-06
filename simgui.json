@@ -1,5 +1,10 @@
 {
   "HALProvider": {
+    "Other Devices": {
+      "window": {
+        "visible": false
+      }
+    },
     "RoboRIO": {
       "window": {
         "visible": true
@@ -9,17 +14,12 @@
   "NTProvider": {
     "types": {
       "/FMSInfo": "FMSInfo",
+      "/SmartDashboard/Auto Chooser": "String Chooser",
       "/SmartDashboard/Field": "Field2d",
       "/SmartDashboard/odo_raw": "Field2d"
     },
     "windows": {
-      "/SmartDashboard/Field": {
-        "bottom": 1476,
-        "height": 8.210550308227539,
-        "left": 150,
-        "right": 2961,
-        "top": 79,
-        "width": 16.541748046875,
+      "/SmartDashboard/Auto Chooser": {
         "window": {
           "visible": true
         }
@@ -41,26 +41,26 @@
     "transitory": {
       "LiveWindow": {
         ".status": {
-          "open": true
+          "open": false
         }
       },
       "Shuffleboard": {
         ".metadata": {
-          "open": true
+          "open": false
         }
       },
       "SmartDashboard": {
         "Field": {
           "double[]##v_/SmartDashboard/Field/Robot": {
-            "open": true
+            "open": false
           }
+        },
+        "odo_raw": {
+          "open": true
         },
         "open": true
       }
     }
-  },
-  "NetworkTables Info": {
-    "visible": true
   },
   "Plot": {
     "Plot <0>": {
